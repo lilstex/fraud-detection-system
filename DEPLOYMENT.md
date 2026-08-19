@@ -2,14 +2,14 @@
 
 This document covers two deployment paths for the Fraud Detection System:
 
-1. **Render** (recommended — free tier, no server management)
+1. **Render** (recommended, free tier, no server management)
 2. **A Linux VPS** (for full control, e.g. DigitalOcean, Hetzner, AWS Lightsail)
 
 Both paths produce a public URL you can share with your supervisor.
 
 ---
 
-## Path A — Render (easiest)
+## Path A: Render (easiest)
 
 Render reads the `render.yaml` file at the repo root and provisions both the
 backend and the frontend as separate services.
@@ -77,7 +77,7 @@ Open the frontend URL in your browser and sign in with:
 
 ---
 
-## Path B — Linux VPS (Ubuntu 22.04)
+## Path B: Linux VPS (Ubuntu 22.04)
 
 This path uses Docker Compose so it works identically on any Linux VPS with
 Docker installed.
@@ -226,7 +226,7 @@ is compatible.
 - Add a **PostgreSQL** service in the Render dashboard.
 - Copy the internal connection string.
 - Set it as `DATABASE_URL` on the backend service.
-- Redeploy — SQLAlchemy handles the switch.
+- Redeploy. SQLAlchemy handles the switch.
 
 ### With a VPS
 
@@ -259,7 +259,7 @@ Then `docker compose up -d --build`.
 
 ## Troubleshooting
 
-### Backend won't start — "Model not loaded"
+### Backend won't start: "Model not loaded"
 
 Run the training step manually:
 
@@ -281,7 +281,7 @@ Your JWT expired (24 hours). Sign out and back in.
 ### Slow first response on Render
 
 The free tier spins the service down after 15 min of inactivity. First
-request after that wakes it up — takes 30–60 seconds. Upgrade to Starter to
+request after that wakes it up, which takes 30-60 seconds. Upgrade to Starter to
 avoid this during a live demo.
 
 ---

@@ -1,4 +1,4 @@
-"""GET /stats — dashboard summary numbers, plus /alerts/recent for the home widget."""
+"""Dashboard summary numbers, plus recent alerts for the home widget."""
 import json
 from datetime import datetime, timedelta
 from typing import List

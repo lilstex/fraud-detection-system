@@ -89,7 +89,7 @@ export default function Dashboard() {
               )}
               {!loading && alerts.length === 0 && (
                 <tr><td colSpan={6} className="px-5 py-6 text-center text-gray-500">
-                  No alerts yet — submit a transaction from “New Transaction”.
+                  No alerts yet. Submit a transaction from “New Transaction”.
                 </td></tr>
               )}
               {alerts.map((a) => (

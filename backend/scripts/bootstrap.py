@@ -1,6 +1,6 @@
 """Container bootstrap: generate data, train models, seed DB if not already done.
 
-Safe to run every start-up — each step is idempotent.
+Safe to run every start-up since each step is idempotent.
 """
 import os
 import sys
@@ -24,24 +24,24 @@ def run(script_name):
 
 def main():
     if not DATA_CSV.exists():
-        print(f"Data file missing at {DATA_CSV} — generating.")
+        print(f"Data file missing at {DATA_CSV}, generating.")
         # generate_synthetic_data.py runs at import (top-level code)
         # so we exec it as a script rather than import it
         os.system(f"{sys.executable} {Path(__file__).parent}/generate_synthetic_data.py")
     else:
-        print(f"Data file already present at {DATA_CSV} — skipping generation.")
+        print(f"Data file already present at {DATA_CSV}, skipping generation.")
 
     if not MODEL_FILE.exists():
-        print(f"Model artefact missing at {MODEL_FILE} — training.")
+        print(f"Model artefact missing at {MODEL_FILE}, training.")
         os.system(f"{sys.executable} {Path(__file__).parent}/train_models.py")
     else:
-        print(f"Model artefact already present at {MODEL_FILE} — skipping training.")
+        print(f"Model artefact already present at {MODEL_FILE}, skipping training.")
 
     if not DB_FILE.exists():
-        print(f"Database missing at {DB_FILE} — seeding.")
+        print(f"Database missing at {DB_FILE}, seeding.")
         os.system(f"{sys.executable} {Path(__file__).parent}/seed_database.py")
     else:
-        print(f"Database already present at {DB_FILE} — skipping seed.")
+        print(f"Database already present at {DB_FILE}, skipping seed.")
 
     print("\nBootstrap complete.")
 

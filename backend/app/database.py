@@ -21,5 +21,5 @@ def get_db():
 
 def init_db():
     """Create all tables. Called at app startup."""
-    from . import models  # noqa: F401 — register models
+    from . import models  # noqa: F401, needed to register models
     Base.metadata.create_all(bind=engine)

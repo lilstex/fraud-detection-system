@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Layout from '../components/Layout.jsx'
 import { statsApi } from '../utils/api'
 import { formatNGN, timeAgo, riskColorClass } from '../utils/format'
@@ -11,18 +12,23 @@ const FILTERS = [
   { id: 'today', label: 'Today' },
 ]
 
+const PAGE_SIZE = 10
+
 export default function Alerts() {
   const [alerts, setAlerts] = useState([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
+  const [page, setPage] = useState(1)
   const navigate = useNavigate()
 
   useEffect(() => {
-    statsApi.recentAlerts(30).then(data => {
+    statsApi.recentAlerts(100).then(data => {
       setAlerts(data)
       setLoading(false)
     }).catch(() => setLoading(false))
   }, [])
+
+  useEffect(() => { setPage(1) }, [filter])
 
   const filtered = alerts.filter(a => {
     if (filter === 'high') return a.risk_score >= 0.5
@@ -34,6 +40,9 @@ export default function Alerts() {
     return true
   })
 
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const paged = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+
   const borderColor = (score) => {
     if (score >= 0.5) return '#E53E3E'
     if (score >= 0.3) return '#DD6B20'
@@ -43,7 +52,7 @@ export default function Alerts() {
   return (
     <Layout>
       <h1 className="text-2xl font-bold text-gray-900 mb-2">
-        Alerts — {loading ? '…' : filtered.length} record{filtered.length === 1 ? '' : 's'}
+        Alerts ({loading ? '…' : filtered.length} record{filtered.length === 1 ? '' : 's'})
       </h1>
       <p className="text-sm text-gray-500 mb-6">Filter and review scored transactions</p>
 
@@ -74,7 +83,7 @@ export default function Alerts() {
             No alerts match this filter.
           </div>
         )}
-        {filtered.map((a) => (
+        {paged.map((a) => (
           <div
             key={a.transaction_id}
             className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex"
@@ -110,6 +119,30 @@ export default function Alerts() {
           </div>
         ))}
       </div>
+
+      {!loading && filtered.length > 0 && (
+        <div className="flex items-center justify-between mt-4">
+          <div className="text-xs text-gray-500">
+            Page {page} of {totalPages}
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setPage(p => Math.max(1, p - 1))}
+              disabled={page <= 1}
+              className="flex items-center gap-1 text-sm px-3 py-1.5 rounded-lg border border-gray-300 text-gray-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+            >
+              <ChevronLeft className="w-4 h-4" /> Prev
+            </button>
+            <button
+              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+              disabled={page >= totalPages}
+              className="flex items-center gap-1 text-sm px-3 py-1.5 rounded-lg border border-gray-300 text-gray-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+            >
+              Next <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
     </Layout>
   )
 }

@@ -1,4 +1,4 @@
-"""POST /reviews — record analyst review decisions."""
+"""Record analyst review decisions."""
 from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session

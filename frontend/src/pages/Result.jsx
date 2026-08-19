@@ -4,6 +4,7 @@ import Layout from '../components/Layout.jsx'
 import ShapBarChart from '../components/ShapBarChart.jsx'
 import { transactionsApi, reviewsApi } from '../utils/api'
 import { formatNGN, formatDate, riskColorClass } from '../utils/format'
+import { showSuccess, showError } from '../utils/alerts'
 import { AlertCircle, CheckCircle2, XCircle, MessageSquarePlus } from 'lucide-react'
 
 export default function Result() {
@@ -37,10 +38,10 @@ export default function Result() {
         outcome,
         notes: notes || null,
       })
-      alert(`Review recorded: ${outcome}`)
+      await showSuccess('Review recorded', outcome)
       navigate('/alerts')
     } catch (err) {
-      alert('Review failed: ' + (err.response?.data?.detail || err.message))
+      await showError('Review failed', err.response?.data?.detail || err.message)
     } finally {
       setReviewing(false)
     }
@@ -67,7 +68,7 @@ export default function Result() {
   return (
     <Layout>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Scoring Result — TX-{tx.transaction_id}</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Scoring Result: TX-{tx.transaction_id}</h1>
         <div className="text-xs text-gray-500">{formatDate(tx.timestamp)}</div>
       </div>
 
@@ -81,7 +82,7 @@ export default function Result() {
             {tx.risk_score.toFixed(2)}
           </div>
           <div className={`text-sm font-bold mt-2 ${riskColorClass(tx.risk_score)}`}>
-            {tx.classification} — {recommendation}
+            {tx.classification}: {recommendation}
           </div>
           {tx.review_outcome && (
             <div className="text-xs text-gray-500 mt-2">
@@ -99,7 +100,7 @@ export default function Result() {
           </div>
           <dl className="text-sm space-y-1.5 text-gray-600">
             <div className="flex justify-between">
-              <dt>Threshold</dt><dd className="font-medium">{tx.threshold?.toFixed(2) ?? '—'}</dd>
+              <dt>Threshold</dt><dd className="font-medium">{tx.threshold?.toFixed(2) ?? '-'}</dd>
             </div>
             <div className="flex justify-between">
               <dt>Type</dt><dd className="font-medium">{tx.type}</dd>

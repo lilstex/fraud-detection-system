@@ -1,4 +1,4 @@
-"""POST /predict — the main scoring endpoint."""
+"""The main scoring endpoint."""
 import json
 from datetime import datetime, timedelta
 from typing import Dict

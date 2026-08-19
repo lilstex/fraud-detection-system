@@ -1,4 +1,4 @@
-"""Rule-based baseline detector — used for the Chapter 5 comparison.
+"""Rule-based baseline detector for the Chapter 5 comparison.
 
 Implements the four rules described in Section 5.5.1:
   1. TRANSFER or CASH-OUT > NGN 200,000 to a new receiver
@@ -29,7 +29,7 @@ def rule_based_score(tx: Dict, account_history: Dict) -> Dict:
     if tx_type == "CASH-OUT" and cashout_repeat >= 3:
         triggered_rules.append("R2: agent_cashout_clustering")
 
-    # Rule 3: account emptied — proxy since we don't have account age here
+    # Rule 3: account emptied, used as a proxy since we don't have account age here
     if old_bal > 0 and (new_bal / old_bal) < 0.05 and amount > 50_000:
         triggered_rules.append("R3: account_balance_drained")
 

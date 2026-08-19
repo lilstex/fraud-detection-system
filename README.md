@@ -111,8 +111,8 @@ npm run dev
 The dashboard is now at `http://localhost:3000`. Sign in with the demo
 credentials:
 
-- Analyst — `analyst / analyst123`
-- Admin — `admin / admin123`
+- Analyst: `analyst / analyst123`
+- Admin: `admin / admin123`
 
 ---
 
@@ -140,7 +140,7 @@ volumes.
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step instructions covering:
 
-- Render (free tier, easiest — one-click via `render.yaml`)
+- Render (free tier, easiest option, one-click via `render.yaml`)
 - A Linux VPS (Ubuntu 22.04) with Docker Compose
 - Environment variables, HTTPS, and PostgreSQL migration notes.
 
@@ -255,11 +255,11 @@ Consistent with the disclosures in Chapter 6 of the report:
 
 ## Licence
 
-Academic project — MIT Open University Nigeria, Professional Master's programme.
+Academic project, MIT Open University Nigeria, Professional Master's programme.
 
 ---
 
 ## Author
 
-**Emmanuel Mbagwu** — MIT, Miva Open University Abuja.
+**Emmanuel Mbagwu**, MIT, Miva Open University Abuja.
 Supervisor: Dr. Theresa Ojowumi.

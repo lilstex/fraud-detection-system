@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # App code
 COPY . .
 
-# Bootstrap script — generates data, trains models, seeds DB if artefacts absent.
+# Bootstrap script: generates data, trains models, seeds DB if artefacts absent.
 # Runs at container start-up so a fresh deployment is one command.
 RUN chmod +x scripts/entrypoint.sh 2>/dev/null || true
 

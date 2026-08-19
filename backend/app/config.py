@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "change-this-in-production-please")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 
-# Demo users (for the prototype only — replace with a real users table in production)
+# Demo users, prototype only. Replace with a real users table in production.
 DEMO_USERS = {
     "analyst": {"password": "analyst123", "role": "analyst"},
     "admin": {"password": "admin123", "role": "admin"},

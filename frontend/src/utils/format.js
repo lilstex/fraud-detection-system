@@ -1,10 +1,10 @@
 export const formatNGN = (amount) => {
-  if (amount == null) return '—'
+  if (amount == null) return '-'
   return `₦${Number(amount).toLocaleString('en-NG', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
 }
 
 export const formatDate = (isoString) => {
-  if (!isoString) return '—'
+  if (!isoString) return '-'
   try {
     const d = new Date(isoString)
     return d.toLocaleString('en-NG', {
@@ -17,7 +17,7 @@ export const formatDate = (isoString) => {
 }
 
 export const timeAgo = (isoString) => {
-  if (!isoString) return '—'
+  if (!isoString) return '-'
   const then = new Date(isoString).getTime()
   const now = Date.now()
   const diffMin = Math.floor((now - then) / 60000)

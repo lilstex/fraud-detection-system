@@ -64,7 +64,7 @@ for a in RNG.choice(AGENTS, size=20, replace=False):
 
 
 def account_recent_activity(account, current_time, hours_back=1):
-    """Placeholder helper — real velocity computed later from the DataFrame."""
+    """Placeholder helper. Real velocity is computed later from the DataFrame."""
     return {}
 
 
@@ -139,7 +139,7 @@ def sample_geo(account, is_fraud):
 
 
 def sample_impossible_travel(is_fraud):
-    """Rare — set only for a subset of fraud cases."""
+    """Rare, only set for a subset of fraud cases."""
     return 1 if (is_fraud and RNG.random() < 0.20) else 0
 
 
