@@ -18,7 +18,7 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: CORS_ORIGINS
-        value: https://fraud-detection-web.onrender.com
+        value: https://fraud-detection-web-jrf0.onrender.com
       - key: DATABASE_URL
         value: sqlite:///./fraud_detection.db
     healthCheckPath: /health
@@ -32,7 +32,7 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE
-        value: https://fraud-detection-api.onrender.com
+        value: https://fraud-detection-api-xc1f.onrender.com
     routes:
       - type: rewrite
         source: /*
