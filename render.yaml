@@ -1,0 +1,40 @@
+services:
+  # Backend (Python + FastAPI)
+  - type: web
+    name: fraud-detection-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+      python scripts/generate_synthetic_data.py
+      python scripts/train_models.py
+      python scripts/seed_database.py
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.7
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: https://fraud-detection-web.onrender.com
+      - key: DATABASE_URL
+        value: sqlite:///./fraud_detection.db
+    healthCheckPath: /health
+
+  # Frontend (Vite static build)
+  - type: web
+    name: fraud-detection-web
+    runtime: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE
+        value: https://fraud-detection-api.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
