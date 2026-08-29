@@ -119,83 +119,96 @@ export default function NewTransaction() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-4xl">
-        <div className="grid grid-cols-1 gap-4">
-          {FIELDS.map(f => (
-            <div key={f.key} className="grid grid-cols-[220px_1fr] items-center gap-4">
-              <label className="text-sm text-gray-600">{f.label}</label>
-              {f.type === 'select' ? (
-                <select
-                  value={form[f.key]}
-                  onChange={e => update(f.key, e.target.value)}
-                  className="border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
-                  required
-                >
-                  {f.options.map(o => <option key={o} value={o}>{o}</option>)}
-                </select>
-              ) : (
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          {/* Transaction Details card */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h2 className="text-lg font-bold text-gray-900 mb-4">Transaction Details</h2>
+            <div className="grid grid-cols-1 gap-4">
+              {FIELDS.map(f => (
+                <div key={f.key}>
+                  <label className="block text-sm text-gray-600 mb-1">{f.label}</label>
+                  {f.type === 'select' ? (
+                    <select
+                      value={form[f.key]}
+                      onChange={e => update(f.key, e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                      required
+                    >
+                      {f.options.map(o => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  ) : (
+                    <input
+                      type={f.type}
+                      value={form[f.key]}
+                      onChange={e => update(f.key, e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                      required
+                      step={f.type === 'number' ? '0.01' : undefined}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Initiation Context card */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h2 className="text-lg font-bold text-gray-900 mb-1">Initiation Context</h2>
+            <p className="text-xs italic text-gray-500 mb-4">
+              Optional, pre-filled from stored account context where available.
+            </p>
+            <div className="grid grid-cols-1 gap-4">
+              {META_FIELDS.map(f => (
+                <div key={f.key}>
+                  <label className="block text-sm text-gray-600 mb-1">{f.label}</label>
+                  {f.type === 'select' ? (
+                    <select
+                      value={form[f.key]}
+                      onChange={e => update(f.key, e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                    >
+                      {f.options.map(o => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  ) : (
+                    <input
+                      type={f.type}
+                      value={form[f.key]}
+                      onChange={e => update(f.key, e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                    />
+                  )}
+                </div>
+              ))}
+              <div className="flex items-center gap-2">
                 <input
-                  type={f.type}
-                  value={form[f.key]}
-                  onChange={e => update(f.key, e.target.value)}
-                  className="border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
-                  required
-                  step={f.type === 'number' ? '0.01' : undefined}
+                  id="is_new_device"
+                  type="checkbox"
+                  checked={form.is_new_device}
+                  onChange={e => update('is_new_device', e.target.checked)}
+                  className="rounded"
                 />
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 pt-6 border-t border-gray-100">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">
-            Nigerian-Context Metadata (optional)
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {META_FIELDS.map(f => (
-              <div key={f.key} className="grid grid-cols-[180px_1fr] items-center gap-3">
-                <label className="text-sm text-gray-600">{f.label}</label>
-                {f.type === 'select' ? (
-                  <select
-                    value={form[f.key]}
-                    onChange={e => update(f.key, e.target.value)}
-                    className="border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
-                  >
-                    {f.options.map(o => <option key={o} value={o}>{o}</option>)}
-                  </select>
-                ) : (
-                  <input
-                    type={f.type}
-                    value={form[f.key]}
-                    onChange={e => update(f.key, e.target.value)}
-                    className="border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
-                  />
-                )}
+                <label htmlFor="is_new_device" className="text-sm text-gray-700">Device not seen before</label>
               </div>
-            ))}
-            <div className="flex items-center gap-2 col-span-full">
-              <input
-                id="is_new_device"
-                type="checkbox"
-                checked={form.is_new_device}
-                onChange={e => update('is_new_device', e.target.checked)}
-                className="rounded"
-              />
-              <label htmlFor="is_new_device" className="text-sm text-gray-700">Device not seen before</label>
-
-              <input
-                id="impossible_travel"
-                type="checkbox"
-                checked={form.impossible_travel}
-                onChange={e => update('impossible_travel', e.target.checked)}
-                className="rounded ml-6"
-              />
-              <label htmlFor="impossible_travel" className="text-sm text-gray-700">Impossible travel</label>
+              <div className="flex items-center gap-2">
+                <input
+                  id="impossible_travel"
+                  type="checkbox"
+                  checked={form.impossible_travel}
+                  onChange={e => update('impossible_travel', e.target.checked)}
+                  className="rounded"
+                />
+                <label htmlFor="impossible_travel" className="text-sm text-gray-700">Impossible travel</label>
+              </div>
             </div>
+            <p className="text-xs italic text-gray-500 mt-4">
+              Fields left blank are recovered from account history; any that cannot
+              be recovered are imputed and flagged on the result screen.
+            </p>
           </div>
         </div>
 
-        <div className="mt-8 flex justify-end">
+        <div className="mt-6 flex justify-end">
           <button
             type="submit"
             disabled={submitting}
